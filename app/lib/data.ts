@@ -15,13 +15,13 @@ import { formatCurrency } from './utils';
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
-  // noStore();
+  noStore();
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
     console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -73,11 +73,11 @@ export async function fetchCardData() {
       customerCountPromise,
       invoiceStatusPromise,
     ]);
-
-    const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
-    const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
-    const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
-    const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
+    console.log("data...", Number(data[0].rows[0].count))
+    const numberOfInvoices = Number(data[0].rows[0].count ?? 0);
+    const numberOfCustomers = Number(data[1].rows[0].count ?? 0);
+    const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? 0);
+    const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? 0);
 
     return {
       numberOfCustomers,
